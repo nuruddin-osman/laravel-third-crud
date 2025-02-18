@@ -20,4 +20,6 @@ Route::middleware('auth')->group(function () {
 
 Route::post("/submit_form",[PostController::class,"post_data"])->name("student-data");
 
+Route::get("/read-student-data",[PostController::class,"read_data"])->name('read-student-data');
+
 require __DIR__.'/auth.php';

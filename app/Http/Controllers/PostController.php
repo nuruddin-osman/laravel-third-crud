@@ -18,4 +18,8 @@ class PostController extends Controller
         $data->save();
         return redirect()->back();
     }
+    public function read_data(){
+        $data = Post::all();
+        return view("student.readStudentData", compact("data"));
+    }
 }
