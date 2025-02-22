@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
 </head>
 <body>
     <div class="container mx-auto">
@@ -19,6 +20,10 @@
                     <h4 class="text-lg font-medium">Department: {{$student->department}}</h4>
                     <h4 class="text-lg font-medium">Phone: {{$student->phone}}</h4>
                     <h4 class="text-lg font-medium">Address: {{$student->address}}</h4>
+                    <div class="flex justify-end gap-3 mt-3">
+                        <button class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">Update</button>
+                        <button class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Delete</button>
+                    </div>
                 </div>
             @endforeach
         </div>

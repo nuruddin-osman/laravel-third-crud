@@ -18,7 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post("/submit_form",[PostController::class,"post_data"])->name("student-data");
+Route::post('/submit_form', [PostController::class, 'post_data'])->name('submit_form');
+
 
 Route::get("/read-student-data",[PostController::class,"read_data"])->name('read-student-data');
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('department')->nullable();
             $table->integer('stID')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
