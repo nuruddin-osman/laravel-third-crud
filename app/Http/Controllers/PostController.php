@@ -29,12 +29,14 @@ class PostController extends Controller
             $data->department = $request->department;
             $data->stID = $request->stID;
 
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images'), $filename);
-                $data->image = $filename;
+            $imageName = null;
+
+            if (isset($request->image)) {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
+                $data->image = $imageName;
             }
+
 
             $data->save();
             return redirect()->back()->with('success', 'Your post has been created successfully.');
@@ -82,19 +84,14 @@ class PostController extends Controller
             $data->department = $request->department;
             $data->stID = $request->stID;
 
-            // Handle image upload if a new image is provided
-            if ($request->hasFile('image')) {
-                // Delete the old image if it exists
-                if ($data->image && file_exists(public_path('images/' . $data->image))) {
-                    unlink(public_path('images/' . $data->image));
-                }
+            $imageName = null;
 
-                // Upload the new image
-                $file = $request->file('image');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('images'), $filename);
-                $data->image = $filename;
+            if (isset($request->image)) {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
+                $data->image = $imageName;
             }
+
 
             // Save the updated data to the database
             $data->save();
