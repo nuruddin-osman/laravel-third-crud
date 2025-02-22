@@ -23,4 +23,11 @@ Route::post('/submit_form', [PostController::class, 'post_data'])->name('submit_
 
 Route::get("/read-student-data",[PostController::class,"read_data"])->name('read-student-data');
 
+// Edit route
+Route::get('/edit_data/{id}', [PostController::class, 'editMethod'])->name('edit_data');
+
+// Update route
+Route::post('/update_data/{id}', [PostController::class, 'updateMethod'])->name('update_data');
+
+
 require __DIR__.'/auth.php';

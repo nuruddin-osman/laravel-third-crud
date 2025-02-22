@@ -24,7 +24,7 @@
                     <h4 class="text-lg font-medium">Phone: {{$student->phone}}</h4>
                     <h4 class="text-lg font-medium">Address: {{$student->address}}</h4>
                     <div class="flex justify-end gap-3 mt-3">
-                        <button class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">Update</button>
+                        <a href="{{ route('edit_data', $student->id) }}" class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">Edit</a>
                         <button class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Delete</button>
                     </div>
                 </div>
