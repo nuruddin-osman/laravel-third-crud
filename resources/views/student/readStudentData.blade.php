@@ -14,6 +14,9 @@
         <div class="grid grid-cols-3 gap-3">
             @foreach ($data as $student)
                 <div class="relative w-full p-4 border rounded-md shadow-md bg-slate-200">
+                    <div class="w-32 h-32 mx-auto overflow-hidden rounded-full">
+                        <img class="object-cover w-full h-full" src="images/{{$student->image}}" alt="image">
+                    </div>
                     <h2 class="absolute text-2xl font-bold right-2 top-2">{{$student->stID}}</h2>
                     <h2 class="mt-4 text-2xl font-bold">Name:{{$student->name}}</h2>
                     <h4 class="text-lg font-medium">Email: {{$student->email}}</h4>
