@@ -9,8 +9,11 @@
     @vite('resources/js/app.js')
 </head>
 <body>
-    <div class="container mx-auto">
+    <div class="container relative mx-auto">
         <h1 class="py-10 text-3xl font-bold text-center text-red-500">Student Information</h1>
+        <div class="absolute top-0 right-0">
+            <a href="/">Back to Home</a>
+        </div>
         <div class="grid grid-cols-3 gap-3">
             @foreach ($data as $student)
                 <div class="relative w-full p-4 border rounded-md shadow-md bg-slate-200">
@@ -25,7 +28,11 @@
                     <h4 class="text-lg font-medium">Address: {{$student->address}}</h4>
                     <div class="flex justify-end gap-3 mt-3">
                         <a href="{{ route('edit_data', $student->id) }}" class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">Edit</a>
-                        <button class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Delete</button>
+                        <form action="{{ route('delete_data', $student->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Delete</button>
+                        </form>
                     </div>
                 </div>
             @endforeach

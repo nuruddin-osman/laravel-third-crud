@@ -4,7 +4,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/student', function () {
+Route::get('/', function () {
     return view('student.student');
 });
 
@@ -30,4 +30,6 @@ Route::get('/edit_data/{id}', [PostController::class, 'editMethod'])->name('edit
 Route::post('/update_data/{id}', [PostController::class, 'updateMethod'])->name('update_data');
 
 
+// web.php
+Route::delete('/delete_data/{id}', [PostController::class, 'deleteMethod'])->name('delete_data');
 require __DIR__.'/auth.php';

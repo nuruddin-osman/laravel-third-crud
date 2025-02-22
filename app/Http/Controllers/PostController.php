@@ -9,22 +9,18 @@ class PostController extends Controller
 {
     public function post_data(Request $request)
     {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:30'],
+            'phone' => ['required', 'numeric'],
+            'address' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string'],
+            'stID' => ['required', 'integer', 'max:9999999999'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
+        ]);
+
+
         try {
-            // Log the incoming request data
-            \Log::info($request->all());
-
-            // Validate the request data
-            $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'email', 'max:30'],
-                'phone' => ['required', 'numeric'],
-                'address' => ['required', 'string', 'max:255'],
-                'department' => ['required', 'string'],
-                'stID' => ['required', 'integer', 'max:9999999999'],
-                'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
-            ]);
-
-            // Create a new Post instance and save the data
             $data = new Post();
             $data->name = $request->name;
             $data->email = $request->email;
@@ -33,7 +29,6 @@ class PostController extends Controller
             $data->department = $request->department;
             $data->stID = $request->stID;
 
-            // Handle image upload
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -41,24 +36,13 @@ class PostController extends Controller
                 $data->image = $filename;
             }
 
-            // Save data to the database
             $data->save();
-
-            // Log successful save
-            \Log::info('Student data saved successfully.', ['data' => $data]);
-
-            // Redirect with success message
             return redirect()->back()->with('success', 'Your post has been created successfully.');
 
         } catch (\Exception $e) {
-            // Log the exception error message
-            \Log::error('Error while saving student data: ' . $e->getMessage(), ['error' => $e]);
-
-            // Return redirect with error message
-            return redirect()->back()->with('error', 'There was an error while saving the data.');
+            return redirect()->back()->withErrors(['error' => 'There was an error while saving the data.']);
         }
     }
-
 
     public function read_data(){
         $data = Post::all();
@@ -76,7 +60,6 @@ class PostController extends Controller
     public function updateMethod(Request $request, $id)
     {
         try {
-            // Validate the request data
             $validated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'max:30'],
@@ -84,8 +67,9 @@ class PostController extends Controller
                 'address' => ['required', 'string', 'max:255'],
                 'department' => ['required', 'string'],
                 'stID' => ['required', 'integer', 'max:9999999999'],
-                'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
+                'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
             ]);
+
 
             // Find the student by ID
             $data = Post::find($id);
@@ -120,10 +104,33 @@ class PostController extends Controller
 
         } catch (\Exception $e) {
             // Log the exception error message
-            \Log::error('Error while updating student data: ' . $e->getMessage(), ['error' => $e]);
+
 
             // Return redirect with error message
             return redirect()->back()->with('error', 'There was an error while updating the data.');
+        }
+    }
+
+
+
+    // PostController.php
+    public function deleteMethod($id)
+    {
+        try {
+            $student = Post::find($id); // Find the student by ID
+
+            // Delete the student image if it exists
+            if ($student->image && file_exists(public_path('images/' . $student->image))) {
+                unlink(public_path('images/' . $student->image));
+            }
+
+            $student->delete(); // Delete the student record
+
+            return redirect()->route('read-student-data')->with('success', 'Student deleted successfully.');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'There was an error while deleting the student.');
         }
     }
 }
