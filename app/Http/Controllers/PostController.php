@@ -30,7 +30,6 @@ class PostController extends Controller
             $data->stID = $request->stID;
 
             $imageName = null;
-
             if (isset($request->image)) {
                 $imageName = time().'.'.$request->image->extension();
                 $request->image->move(public_path('images'), $imageName);
@@ -84,7 +83,6 @@ class PostController extends Controller
             $data->stID = $request->stID;
 
             $imageName = null;
-
             if (isset($request->image)) {
                 $imageName = time().'.'.$request->image->extension();
                 $request->image->move(public_path('images'), $imageName);
@@ -116,9 +114,9 @@ class PostController extends Controller
             $student = Post::find($id); // Find the student by ID
 
             // Delete the student image if it exists
-            if ($student->image && file_exists(public_path('images/' . $student->image))) {
-                unlink(public_path('images/' . $student->image));
-            }
+            // if ($student->image && file_exists(public_path('images/' . $student->image))) {
+            //     unlink(public_path('images/' . $student->image));
+            // }
 
             $student->delete(); // Delete the student record
 
@@ -140,5 +138,16 @@ class PostController extends Controller
     public function showDeletedStudents(){
         $deletedStudents = Post::onlyTrashed()->get(); //
         return view("student.deletedStudents", compact("deletedStudents"));
+    }
+
+    public function forceDeleteMethod($id){
+        $student = Post::withTrashed()->find($id);
+
+        if ($student->image && file_exists(public_path('images/' . $student->image))) {
+            unlink(public_path('images/' . $student->image));
+        }
+        $student->forceDelete();
+
+        return redirect()->back()->with('success', 'Student permanently deleted successfully.');
     }
 }

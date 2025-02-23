@@ -30,6 +30,11 @@
                     <h4 class="text-lg font-medium">Address: {{$student->address}}</h4>
                     <div class="flex justify-end gap-3 mt-3">
                         <a href="{{ route('restore', $student->id) }}" class="bg-green-500 text-[#FFF] px-3 py-1 rounded-md">Restore</a>
+                        <form action="{{ route('force_delete', $student->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Permanently Delete</button>
+                        </form>
                     </div>
                 </div>
             @endforeach

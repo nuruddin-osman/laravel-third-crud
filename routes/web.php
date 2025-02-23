@@ -41,4 +41,4 @@ Route::get('/restore/{id}', [PostController::class, 'restoreMethod'])->name('res
 
 Route::get('/deleted-students', [PostController::class, 'showDeletedStudents'])->name('deleted-students');
 
-
+Route::delete('/force_delete/{id}', [PostController::class, 'forceDeleteMethod'])->name('force_delete');
