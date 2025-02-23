@@ -72,7 +72,6 @@ class PostController extends Controller
                 'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
             ]);
 
-
             // Find the student by ID
             $data = Post::find($id);
 
@@ -129,5 +128,17 @@ class PostController extends Controller
 
             return redirect()->back()->with('error', 'There was an error while deleting the student.');
         }
+    }
+
+    public function restoreMethod($id)
+    {
+        $data = Post::withTrashed()->find($id);
+        $data->restore();
+        return redirect()->back()->with('success', 'Data Restored Successfully');
+    }
+
+    public function showDeletedStudents(){
+        $deletedStudents = Post::onlyTrashed()->get(); //
+        return view("student.deletedStudents", compact("deletedStudents"));
     }
 }

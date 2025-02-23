@@ -21,7 +21,7 @@
                 {{ session('error') }}
             </div>
         @endif
-        <form action="{{ route('update_data', $student->id) }}" method="POST" enctype="multipart/form-data" class="w-2/5 p-4 mx-auto border rounded-md shadow-md" novalidate>
+        <form action="{{ route('update_data', $student->id) }}" method="POST" enctype="multipart/form-data" class="w-2/5 p-4 mx-auto border rounded-md shadow-md">
             @csrf
             <div class="flex items-center justify-between py-2">
                 <label for="name">Name</label>

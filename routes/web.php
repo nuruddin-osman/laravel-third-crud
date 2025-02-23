@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+require __DIR__.'/auth.php';
+
 
 Route::post('/submit_form', [PostController::class, 'post_data'])->name('submit_form');
 
@@ -32,4 +34,11 @@ Route::post('/update_data/{id}', [PostController::class, 'updateMethod'])->name(
 
 // web.php
 Route::delete('/delete_data/{id}', [PostController::class, 'deleteMethod'])->name('delete_data');
-require __DIR__.'/auth.php';
+
+
+Route::get('/restore/{id}', [PostController::class, 'restoreMethod'])->name('restore');
+
+
+Route::get('/deleted-students', [PostController::class, 'showDeletedStudents'])->name('deleted-students');
+
+

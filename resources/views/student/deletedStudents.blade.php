@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
 <body>
     <div class="container relative mx-auto">
-        <h1 class="py-10 text-3xl font-bold text-center text-red-500">Student Information</h1>
+        <h1 class="py-10 text-3xl font-bold text-center text-red-500">Deleted Students</h1>
         <div class="absolute top-0 right-0 mt-2">
-            <a class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md" href="/">Back to Home</a>
-            <a href="{{ route('deleted-students') }}" class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">View Deleted Students</a>
+            <a href="{{ route('read-student-data') }}" class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">View Active Students</a>
         </div>
         <div class="grid grid-cols-3 gap-3">
-            @foreach ($data as $student)
+            @foreach ($deletedStudents as $student)
                 <div class="relative w-full p-4 border rounded-md shadow-md bg-slate-200">
+                    <!-- Student Details -->
                     <div class="w-32 h-32 mx-auto overflow-hidden rounded-full">
                         <img class="object-cover w-full h-full" src="images/{{$student->image}}" alt="image">
                     </div>
@@ -28,12 +29,7 @@
                     <h4 class="text-lg font-medium">Phone: {{$student->phone}}</h4>
                     <h4 class="text-lg font-medium">Address: {{$student->address}}</h4>
                     <div class="flex justify-end gap-3 mt-3">
-                        <a href="{{ route('edit_data', $student->id) }}" class="bg-orange-500 text-[#FFF] px-3 py-1 rounded-md">Edit</a>
-                        <form action="{{ route('delete_data', $student->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-600 text-[#FFF] px-3 py-1 rounded-md">Delete</button>
-                        </form>
+                        <a href="{{ route('restore', $student->id) }}" class="bg-green-500 text-[#FFF] px-3 py-1 rounded-md">Restore</a>
                     </div>
                 </div>
             @endforeach
